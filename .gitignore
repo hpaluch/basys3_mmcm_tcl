@@ -12,6 +12,8 @@
 *.hw/
 *.runs/
 *.sim/
+.Xil/
+*.dcp
 # IP is generated here...
 clk_wiz_0.v
 clk_wiz_0.xdc

@@ -23,7 +23,6 @@ proc checkRequiredFiles { origin_dir} {
  "[file normalize "$origin_dir/Basys-3-Master.xdc"]"\
  "[file normalize "$origin_dir/clk_wiz_0_tb.v"]"\
  "[file normalize "$origin_dir/config_v.txt"]"\
- "[file normalize "$origin_dir/top.dcp"]"\
   ]
   foreach ifile $files {
     if { ![file isfile $ifile] } {
@@ -45,7 +44,8 @@ proc checkRequiredFiles { origin_dir} {
   return $status
 }
 # Set the reference directory for source file relative paths (by default the value is script directory path)
-set origin_dir "."
+set origin_dir "[file normalize "."]"
+puts "DEBUG: origin_dir='$origin_dir'"
 
 # Use origin directory path location variable, if specified in the tcl shell
 if { [info exists ::origin_dir_loc] } {
@@ -165,7 +165,12 @@ set obj [get_filesets sources_1]
 set files [list \
  [file normalize "${origin_dir}/clk_wiz_0.xci"] \
 ]
-add_files -norecurse -fileset $obj $files
+# We have to import_ip to avoid:
+# [Vivado 12-13650] The IP file 'ip.xci' has been moved from its original location,
+# as a result the outputs for this IP will now be generated in '/wrong_path'.
+#
+#add_files -norecurse -fileset $obj $files
+import_ip -files $files
 
 # Add local files from the original project (-no_copy_sources specified)
 set files [list \
@@ -175,15 +180,14 @@ set files [list \
 set added_files [add_files -fileset sources_1 $files]
 
 # Set 'sources_1' fileset file properties for remote files
-set file "$origin_dir/clk_wiz_0.xci"
-set file [file normalize $file]
-set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
-set_property -name "generate_files_for_reference" -value "0" -objects $file_obj
-if { ![get_property "is_locked" $file_obj] } {
-  set_property -name "generate_synth_checkpoint" -value "0" -objects $file_obj
-}
-set_property -name "registered_with_manager" -value "1" -objects $file_obj
-
+#set file "$origin_dir/clk_wiz_0.xci"
+#set file [file normalize $file]
+#set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
+#set_property -name "generate_files_for_reference" -value "0" -objects $file_obj
+#if { ![get_property "is_locked" $file_obj] } {
+#  set_property -name "generate_synth_checkpoint" -value "0" -objects $file_obj
+#}
+#set_property -name "registered_with_manager" -value "1" -objects $file_obj
 
 # Set 'sources_1' fileset file properties for local files
 set file "top.v"
@@ -245,32 +249,6 @@ set obj [get_filesets sim_1]
 set_property -name "top" -value "clk_wiz_0_tb" -objects $obj
 set_property -name "top_lib" -value "xil_defaultlib" -objects $obj
 
-# Set 'utils_1' fileset object
-set obj [get_filesets utils_1]
-# Add local files from the original project (-no_copy_sources specified)
-set files [list \
- [file normalize "${origin_dir}/top.dcp" ]\
-]
-set added_files [add_files -fileset utils_1 $files]
-
-# Set 'utils_1' fileset file properties for remote files
-# None
-
-# Set 'utils_1' fileset file properties for local files
-set file "top.dcp"
-set file_obj [get_files -of_objects [get_filesets utils_1] [list "*$file"]]
-set_property -name "netlist_only" -value "0" -objects $file_obj
-
-
-# Set 'utils_1' fileset properties
-set obj [get_filesets utils_1]
-
-set idrFlowPropertiesConstraints ""
-catch {
- set idrFlowPropertiesConstraints [get_param runs.disableIDRFlowPropertyConstraints]
- set_param runs.disableIDRFlowPropertyConstraints 1
-}
-
 # Create 'synth_1' run (if not found)
 if {[string equal [get_runs -quiet synth_1] ""]} {
     create_run -name synth_1 -part xc7a35tcpg236-1 -flow {Vivado Synthesis 2024} -strategy "Vivado Synthesis Defaults" -report_strategy {No Reports} -constrset constrs_1
@@ -291,8 +269,8 @@ if { $obj != "" } {
 
 }
 set obj [get_runs synth_1]
-set_property -name "incremental_checkpoint" -value "$origin_dir/top.dcp" -objects $obj
-set_property -name "auto_incremental_checkpoint" -value "1" -objects $obj
+#set_property -name "incremental_checkpoint" -value "$origin_dir/top.dcp" -objects $obj
+#set_property -name "auto_incremental_checkpoint" -value "1" -objects $obj
 set_property -name "strategy" -value "Vivado Synthesis Defaults" -objects $obj
 
 # set the current synth run

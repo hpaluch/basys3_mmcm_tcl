@@ -4,7 +4,7 @@
     "xci_name": "clk_wiz_0",
     "component_reference": "xilinx.com:ip:clk_wiz:6.0",
     "ip_revision": "14",
-    "gen_directory": "../../../../clk_wiz_0_ex.gen/sources_1/ip/clk_wiz_0",
+    "gen_directory": ".",
     "parameters": {
       "component_parameters": {
         "Component_Name": [ { "value": "clk_wiz_0", "resolve_type": "user", "usage": "all" } ],
