@@ -1,0 +1,21 @@
+*~
+*.swp
+*.bak
+*.orig
+
+# Vivado logs
+*.jou
+*.log
+
+# Vivado generated files
+*.cache/
+*.hw/
+*.runs/
+*.sim/
+# IP is generated here...
+clk_wiz_0.v
+clk_wiz_0.xdc
+clk_wiz_0.xml
+clk_wiz_0_board.xdc
+clk_wiz_0_clk_wiz.v
+clk_wiz_0_ooc.xdc
