@@ -5,8 +5,15 @@ clock for Artix-7 Digilent Basys3 board and Vivado 2024.1.
 
 > Work in Progress.
 
-It is based on "IP Design Example..." code (see [clk_wiz_0_exdes.v](clk_wiz_0_exdes.v),
-that handles properly RESET using several `ASYNC_REG` shift registers (not trivial stuff).
+Status:
+- TCL script [aa-gen-project.tcl](aa-gen-project.tcl) now generates project `../basys3_mmcm_work/basys3_mmcm_work.xpr`
+  without error
+- Project `../basys3_mmcm_work/basys3_mmcm_work.xpr` now builds without fatal error (but some warnings)
+
+This project is based on "IP Design Example..." code (see
+[clk_wiz_0_exdes.v](clk_wiz_0_exdes.v), generated from "Clock Wizard", that
+handles properly RESET using several `ASYNC_REG` shift registers - it is serous
+stuff where intuition is not enough.
 
 # Setup
 
@@ -45,3 +52,8 @@ merge them back to this repo.
 I don't know - why something that worked pretty well in Vivado 2015.1
 (generating TCL script to create project) is now screwed...
 
+Some related resources:
+- https://adaptivesupport.amd.com/s/question/0D54U00008W1LZzSAN/best-practice-for-xci-add-in-project-creation-tcl?language=en_US
+- https://adaptivesupport.amd.com/s/question/0D54U00006VE0bTSAT/outputdir-and-gendirectory-in-xci-json-files?language=en_US
+- https://docs.amd.com/r/en-US/ug939-vivado-designing-with-ip-tutorial
+- https://docs.amd.com/r/2020.2-English/ug835-vivado-tcl-commands/import_ip
