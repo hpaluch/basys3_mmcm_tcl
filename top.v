@@ -21,7 +21,8 @@ module top(
     input clk,
     input btnC,
     output [2:0]led,
-    output [3:0]JA
+    output [3:0]JA,
+    output [3:0]an // common anodes of 4 digit display, Active low (to turn glowing display off)
     );
     wire locked;
     wire CLK_OUT;
@@ -29,6 +30,12 @@ module top(
     
   assign led = { COUNT, locked, btnC };
   assign JA  = { COUNT, CLK_OUT, locked, btnC };
+
+  // tie 4-digit 7-segment display anodes to 1 (PNP transistor off) to stop glowing display
+  genvar ii;
+  for(ii=0 ; ii<4 ;ii = ii+1) begin: gen_anx_obuf
+    OBUF anx_obuf ( .I(1'b1), .O(an[ii]) );
+  end
     
   clk_wiz_0_exdes exdes_inst1 (// Clock in ports
     // Reset for logic in example design
