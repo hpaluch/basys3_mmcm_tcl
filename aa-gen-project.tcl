@@ -23,6 +23,7 @@ proc checkRequiredFiles { origin_dir} {
  "[file normalize "$origin_dir/Basys-3-Master.xdc"]"\
  "[file normalize "$origin_dir/clk_wiz_0_tb.v"]"\
  "[file normalize "$origin_dir/config_v.txt"]"\
+ "[file normalize "$origin_dir/ex_count.v"]"\
   ]
   foreach ifile $files {
     if { ![file isfile $ifile] } {
@@ -175,6 +176,7 @@ import_ip -files $files
 # Add local files from the original project (-no_copy_sources specified)
 set files [list \
  [file normalize "${origin_dir}/clk_wiz_0_exdes.v" ]\
+ [file normalize "${origin_dir}/ex_count.v" ]\
  [file normalize "${origin_dir}/top.v" ]\
 ]
 set added_files [add_files -fileset sources_1 $files]
@@ -195,6 +197,10 @@ set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
 set_property -name "used_in" -value "synthesis implementation" -objects $file_obj
 set_property -name "used_in_simulation" -value "0" -objects $file_obj
 
+set file "ex_count.v"
+set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
+set_property -name "used_in" -value "synthesis implementation" -objects $file_obj
+set_property -name "used_in_simulation" -value "0" -objects $file_obj
 
 # Set 'sources_1' fileset properties
 set obj [get_filesets sources_1]

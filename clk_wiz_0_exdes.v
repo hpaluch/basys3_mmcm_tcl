@@ -64,6 +64,8 @@ module clk_wiz_0_exdes
   // Status and control signals
   input         reset,
   output        locked,
+  output        safe_clk, // use this clock in your design
+  output        safe_reset, // use this RESET synchronously in your design
  // Clock in ports
   input         clk_in1
  );
@@ -85,8 +87,6 @@ module clk_wiz_0_exdes
   (* ASYNC_REG = "TRUE" *)  reg rst_sync_int1;
   (* ASYNC_REG = "TRUE" *)  reg rst_sync_int2;
 
-
-
   // Declare the clocks and counter
   wire           clk_int;
   wire           clk;
@@ -95,9 +95,8 @@ module clk_wiz_0_exdes
   wire      clk_in2_buf;
   wire      clkfb_in_buf;
 
-
-
-
+  assign safe_reset = rst_sync_int2;
+  assign safe_clk = clk;
 
   // Instantiation of the clocking network
   //--------------------------------------
