@@ -1,7 +1,8 @@
 # MMCM clock base example for Artix-7 Basys3 board
 
-Most trivial example how to use MMCM IP "Clock Wizard" to generate 8 MHz clock from 100 MHz on-board
-clock for Artix-7 Digilent Basys3 board and Vivado 2024.1.
+Most trivial example how to use MMCM IP "Clock Wizard" to generate 8 MHz clock
+from 100 MHz on-board clock for Artix-7 Digilent Basys3 board and Vivado
+2024.1.
 
 > Work in Progress.
 
@@ -49,7 +50,7 @@ Outputs:
 # Using proper RESET
 
 There is one serious limitation when using FPGAs with external RESET source (push button `BTNC` in my example)
-or RESET signal from different "clock domain":
+or RESET signal from different "clock domain" (which is also considered asynchronous):
 - asynchronous *assertion*  of RESET is not problem
 - but asynchronous *release* of RESET is problem - it may cause non-deterministic behavior
 
@@ -58,14 +59,13 @@ RESET release circuit and use it consistently in design. There are several point
 
 * https://docs.amd.com/r/en-US/ug906-vivado-design-analysis/Asynchronous-Reset-Synchronizer (or page 207
   in PDF version)
-  - please note that you must use *same type* Flip-Flops in design:
-    (FDCE with FDCE, FDPE with FDPE).
+  - please note that you must use *same type* of Flip-Flops in design: (FDCE with FDCE, FDPE with FDPE).
 * https://docs.amd.com/r/en-US/ug949-vivado-design-methodology/Synchronous-Reset-vs.-Asynchronous-Reset (page 49
   in PDF version) - more extensive on this topic (mostly about DSP block but not limited to)
 * http://www.markharvey.info/art/7clk_19.10.2015/7clk_19.10.2015.html
   section "2. Create a reset circuit based on LOCKED"
 
-I would happily to talk on this topic, but I have no insight in this case -
+I would happily explain this topic in depth, but I have no insight in this case -
 above links are all resources I have found on Internet.
 
 # Results
@@ -79,14 +79,14 @@ Workspace file for download: [assets/startup.dwf3work](assets/startup.dwf3work)
 > Disclaimer: please note that Analyzer's bandwidth (100 MHz) is not enough to measure
 > 8 MHz accurately, because there are only 100 / 8 = 12 samples per period - around 8% error)
 >
-> Also note that `CLK` it not direct output of MMCM clock, but it goes through ODDR (Output Double
+> Also note that `CLK` is not direct output of MMCM clock, but it goes through ODDR (Output Double
 > Data Rate) that doubles frequency, but it is immediately divided by 2 to get back standard clock rate.
 > It comes from generate "IP Design Example..." - but without explanation why it used that way
 
 You can see that:
 - after release of `BTN_RST` it takes around 10 µs for MMCM clock to start
 - it takes around another 10 µs to stabilize clock (asynchronous `locked` signal becomes active)
-- and it takes around 4 output ticks to convert async `locked` signal to synchronous `safe_rst` which
+- and it takes around 4 output ticks to convert asynchronous `locked` signal to synchronous `safe_rst` which
   can be used to safely start other modules that use 8 MHz clock from MMCM.
 
 # Notes
