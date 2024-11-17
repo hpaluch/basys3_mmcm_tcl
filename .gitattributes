@@ -10,5 +10,5 @@
 *_stub.v text eol=crlf
 *_stub.vhdl text eol=crlf
 # GIT LFS files
-#*.gif filter=lfs diff=lfs merge=lfs -text
-#*.dwf3work filter=lfs diff=lfs merge=lfs -text
+*.png filter=lfs diff=lfs merge=lfs -text
+*.dwf3work filter=lfs diff=lfs merge=lfs -text

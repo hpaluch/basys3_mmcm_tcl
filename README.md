@@ -68,6 +68,27 @@ RESET release circuit and use it consistently in design. There are several point
 I would happily to talk on this topic, but I have no insight in this case -
 above links are all resources I have found on Internet.
 
+# Results
+
+Here is screenshot from `Digilent WaveForms` using `Digilent Analog Discovery 2` scope:
+
+![Startup analyzer](assets/startup-analyzer.png)
+
+Workspace file for download: [assets/startup.dwf3work](assets/startup.dwf3work)
+
+> Disclaimer: please note that Analyzer's bandwidth (100 MHz) is not enough to measure
+> 8 MHz accurately, because there are only 100 / 8 = 12 samples per period - around 8% error)
+>
+> Also note that `CLK` it not direct output of MMCM clock, but it goes through ODDR (Output Double
+> Data Rate) that doubles frequency, but it is immediately divided by 2 to get back standard clock rate.
+> It comes from generate "IP Design Example..." - but without explanation why it used that way
+
+You can see that:
+- after release of `BTN_RST` it takes around 10 µs for MMCM clock to start
+- it takes around another 10 µs to stabilize clock (asynchronous `locked` signal becomes active)
+- and it takes around 4 output ticks to convert async `locked` signal to synchronous `safe_rst` which
+  can be used to safely start other modules that use 8 MHz clock from MMCM.
+
 # Notes
 
 Unlike Vivado 2015.1 (using with AC701) I must admit that Vivado 2024.1 is like
