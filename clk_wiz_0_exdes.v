@@ -81,6 +81,8 @@ module clk_wiz_0_exdes
   localparam TCQ  = 100;
   // When the clock goes out of lock, reset the counters
   wire          reset_int = (!locked)  || reset  || COUNTER_RESET;
+  // we must pass reset_int through synchronizer to avoid LUTAR-1 LUT drives async reset alert
+  reg reset_int_sync = 1'b0;
 
   (* ASYNC_REG = "TRUE" *)  reg rst_sync;
   (* ASYNC_REG = "TRUE" *)  reg rst_sync_int;
@@ -124,11 +126,14 @@ module clk_wiz_0_exdes
   //-----------------------------------------
   assign clk = clk_int;
 
+  // reset_int synchronizer
+  always @(posedge clk)
+    reset_int_sync <= reset_int;
 
   // Reset synchronizer
   //-----------------------------------
-    always @(posedge reset_int or posedge clk) begin
-       if (reset_int) begin
+    always @(posedge reset_int_sync or posedge clk) begin
+       if (reset_int_sync) begin
             rst_sync <= 1'b1;
             rst_sync_int <= 1'b1;
             rst_sync_int1 <= 1'b1;
