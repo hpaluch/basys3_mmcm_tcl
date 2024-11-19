@@ -10,6 +10,8 @@ Status:
 - TCL script [aa-gen-project.tcl](aa-gen-project.tcl) now generates project `../basys3_mmcm_work/basys3_mmcm_work.xpr`
   without error
 - Project `../basys3_mmcm_work/basys3_mmcm_work.xpr` now builds without fatal error (but some warnings)
+- Fixed all warnings but `LUTAR-1#1 Warning LUT drives async reset alert`, looking
+  into https://adaptivesupport.amd.com/s/question/0D54U00008UcTzGSAV/lutar1-warning-lut-drives-async-reset-alert-from-reportmethodology-for-xpmcdcasyncrst?language=en_US
 
 This project is based on "IP Design Example..." code (see
 [clk_wiz_0_exdes.v](clk_wiz_0_exdes.v), generated from "Clock Wizard", that
