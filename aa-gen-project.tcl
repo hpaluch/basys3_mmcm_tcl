@@ -239,6 +239,7 @@ set files [list \
  [file normalize "${origin_dir}/config_v.txt" ]\
 ]
 set added_files [add_files -fileset sim_1 $files]
+set_property -name {xsim.simulate.runtime} -value {13100ns} -objects [get_filesets sim_1]
 
 # Set 'sim_1' fileset file properties for remote files
 # None
