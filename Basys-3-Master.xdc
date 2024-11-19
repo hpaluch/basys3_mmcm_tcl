@@ -5,7 +5,8 @@
 
 ## Clock signal
 set_property -dict { PACKAGE_PIN W5   IOSTANDARD LVCMOS33 } [get_ports clk]
-create_clock -add -name sys_clk_pin -period 10.00 -waveform {0 5} [get_ports clk]
+#already defined by IP: ../basys3_mmcm_work/basys3_mmcm_work.gen/sources_1/ip/clk_wiz_0/clk_wiz_0.xdc
+#create_clock -add -name clk -period 10.00 -waveform {0 5} [get_ports clk]
 
 ## Switches
 #set_property -dict { PACKAGE_PIN V17   IOSTANDARD LVCMOS33 } [get_ports {sw[0]}]
