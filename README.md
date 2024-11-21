@@ -2,9 +2,12 @@
 
 Most trivial example how to use MMCM IP "Clock Wizard" to generate 8 MHz clock
 from 100 MHz on-board clock for Artix-7 Digilent Basys3 board and Vivado
-2024.1.
+2024.1 or 2023.2
 
 > Work in Progress.
+>
+> Warning! I'm now in process migrating from Vivado 2024.1 to 2023.2 due significant
+> bug in 2024.1 - message `HSR_BOUNDARY_TOP`, e.g. https://adaptivesupport.amd.com/s/question/0D54U00008fEHC9SAO/wrong-fdre-output-during-postimplementation-simulation?language=en_US
 
 Status:
 - TCL script [aa-gen-project.tcl](aa-gen-project.tcl) now generates project `../basys3_mmcm_work/basys3_mmcm_work.xpr`
@@ -20,12 +23,25 @@ stuff where intuition is not enough.
 
 # Setup
 
-Tested Vivado 2024.1 on Linux (Alma Linux 8.7). Command has to be run in this directory:
+Downloading Basys 3 board definitions:
+- right after installation, Vivado contains only Xilinx board definitions (for example AC701 for Artix-7)
+- Digilent boards have to downloaded using any of:
+
+  a)  from GUI ( Create Project -> Boards -> Refresh, Select Basys 3 and click on Download icon)
+  b)  via CLI using commands below:
+
+CLI Example for Vivado 2023.2 - Linux only(!):
+
 ```shell
-bash$ /opt/Xilinx/Vivado/2024.1/bin/vivado -mode tcl
-Vivado% ls
-Vivado% source aa-gen-project.tcl
-Vivado% exit   # exit vivado to avoid project sharing clashes
+/opt/Xilinx/Vivado/2023.2/bin/vivado -mode tcl -script ./a0-fetch-basys3-board.tcl
+```
+
+Ensure that there are no errors.
+
+
+Next you can create project in parent `../basys3_mmcm_work/` directory by running:
+```shell
+/opt/Xilinx/Vivado/2024.1/bin/vivado -mode tcl -script ./aa-gen-project.tcl
 ```
 
 Now open generated project `../basys3_mmcm_work/basys3_mmcm_work.xpr` in normal `Vivado 2024.1` GUI.
