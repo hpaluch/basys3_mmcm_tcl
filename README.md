@@ -41,10 +41,10 @@ Ensure that there are no errors.
 
 Next you can create project in parent `../basys3_mmcm_work/` directory by running:
 ```shell
-/opt/Xilinx/Vivado/2024.1/bin/vivado -mode tcl -script ./aa-gen-project.tcl
+/opt/Xilinx/Vivado/2023.2/bin/vivado -mode tcl -script ./aa-gen-project.tcl
 ```
 
-Now open generated project `../basys3_mmcm_work/basys3_mmcm_work.xpr` in normal `Vivado 2024.1` GUI.
+Now open generated project `../basys3_mmcm_work/basys3_mmcm_work.xpr` in normal `Vivado 2023.2` GUI.
 And generate bitstream using Flow Navigator -> Program and Debug -> Generate Bitstream (confirm
 that you want to use all previous steps).
 
