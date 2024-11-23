@@ -27,9 +27,14 @@ set ver [version -short]
 set ver_major [lindex [split $ver .] 0]
 puts "Vivado version is '$ver' major: '$ver_major'"
 
-set repo_path "$::env(HOME)/.Xilinx/Vivado/$ver/xhub/board_store/xilinx_board_store"
-if { ![file isdirectory $repo_path] } {
-	error "Path '$repo_path' is not directory - download Basys 3 board first."
+# returns path like: HOME/.Xilinx/Vivado/2023.2/XilinxTclStore
+set user_repo_path "[::tclapp::get_user_repo_path]"
+# we must replace XilinxTclStore with xhub/board_store/xilinx_board_store"
+set board_repo_path "[string map {XilinxTclStore xhub/board_store/xilinx_board_store} "$user_repo_path"]"
+# example result: HOME/.Xilinx/Vivado/2023.2/xhub/board_store/xilinx_board_store
+puts "Using board repo path '$board_repo_path'"
+if { ![file isdirectory $board_repo_path] } {
+	error "Path '$board_repo_path' is not directory - download Basys 3 board first."
 }
 
 # Set the reference directory for source file relative paths (by default the value is script directory path)
@@ -130,7 +135,7 @@ set proj_dir [get_property directory [current_project]]
 
 # Set project properties
 set obj [current_project]
-set_property -name "board_part_repo_paths" -value "$repo_path" -objects $obj
+set_property -name "board_part_repo_paths" -value "$board_repo_path" -objects $obj
 set_property -name "board_part" -value "digilentinc.com:basys3:part0:1.2" -objects $obj
 set_property -name "default_lib" -value "xil_defaultlib" -objects $obj
 set_property -name "enable_resource_estimation" -value "0" -objects $obj

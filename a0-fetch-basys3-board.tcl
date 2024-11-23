@@ -5,9 +5,11 @@
 
 set ver [version -short]
 puts "Vivado version is '$ver'"
-set repo_path "$::env(HOME)/.Xilinx/Vivado/$ver/xhub/board_store/xilinx_board_store"
-puts "Using board repo path '$repo_path'"
+set user_repo_path "[::tclapp::get_user_repo_path]"
+# we must replace XilinxTclStore with xhub/board_store/xilinx_board_store"
+set board_repo_path "[string map {XilinxTclStore xhub/board_store/xilinx_board_store} "$user_repo_path"]"
+puts "Using board repo path '$board_repo_path'"
 xhub::refresh_catalog [xhub::get_xstores xilinx_board_store]
-set_param board.repoPaths "$repo_path"
+set_param board.repoPaths "$board_repo_path"
 xhub::install [xhub::get_xitems digilentinc.com:xilinx_board_store:basys3:1.2]
-puts "OK: Basys 3 board installed into $repo_path"
+puts "OK: Basys 3 board installed into $board_repo_path"
