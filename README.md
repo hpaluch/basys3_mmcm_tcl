@@ -2,12 +2,15 @@
 
 Most trivial example how to use MMCM IP "Clock Wizard" to generate 8 MHz clock
 from 100 MHz on-board clock for Artix-7 Digilent Basys3 board and Vivado
-2024.1 or 2023.2
+2023.2 (my preferred version)
+
+Tested Vivado versions (always using free Standard Edition):
+* 2023.2 on AlmaLinux 8.7 - my main development environment
+* 2024.1 on AlmaLinux 8.7 - strongly *discouraged* - contains serious bugs that can cause
+  invalid implementation results, see https://adaptivesupport.amd.com/s/question/0D54U00008fEHC9SAO/wrong-fdre-output-during-postimplementation-simulation?language=en_US (I experience same warning when using MMCM).
+* 2024.2 on Windows 10 Home - occasionally testing if build works even on Windows
 
 > Work in Progress.
->
-> Warning! I'm now in process migrating from Vivado 2024.1 to 2023.2 due significant
-> bug in 2024.1 - message `HSR_BOUNDARY_TOP`, e.g. https://adaptivesupport.amd.com/s/question/0D54U00008fEHC9SAO/wrong-fdre-output-during-postimplementation-simulation?language=en_US
 
 Status:
 - TCL script [aa-gen-project.tcl](aa-gen-project.tcl) now generates project `../basys3_mmcm_work/basys3_mmcm_work.xpr`

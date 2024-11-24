@@ -25,14 +25,16 @@ proc checkRequiredFiles { origin_dir} {
 
 set ver [version -short]
 set ver_major [lindex [split $ver .] 0]
-puts "Vivado version is '$ver' major: '$ver_major'"
+puts "INFO: Vivado version is '$ver' major: '$ver_major'"
 
 # returns path like: HOME/.Xilinx/Vivado/2023.2/XilinxTclStore
 set user_repo_path "[::tclapp::get_user_repo_path]"
 # we must replace XilinxTclStore with xhub/board_store/xilinx_board_store"
 set board_repo_path "[string map {XilinxTclStore xhub/board_store/xilinx_board_store} "$user_repo_path"]"
-# example result: HOME/.Xilinx/Vivado/2023.2/xhub/board_store/xilinx_board_store
-puts "Using board repo path '$board_repo_path'"
+# example result:
+# -   Linux: HOME/.Xilinx/Vivado/2023.2/xhub/board_store/xilinx_board_store
+# - Windows: USERPROFILE/AppData/Roaming/Xilinx/Vivado/2024.2/xhub/board_store/xilinx_board_store
+puts "INFO: Using board repo path '$board_repo_path'"
 if { ![file isdirectory $board_repo_path] } {
 	error "Path '$board_repo_path' is not directory - download Basys 3 board first."
 }
@@ -48,7 +50,7 @@ if { [info exists ::origin_dir_loc] } {
 
 # tricky part - handle different version of IP blocks for different versions of Vivado
 # TODO: use dictionary
-set ip_filename "${origin_dir}/ip/$ver_major/clk_wiz_0.xci"
+set ip_filename "${origin_dir}/ip/$ver/clk_wiz_0.xci"
 set ip_pathname [file normalize "$ip_filename"]
 if { ![file isfile $ip_pathname] } {
 	error "Unable to read '$ip_pathname' - maybe unsupported Vivado version?"
